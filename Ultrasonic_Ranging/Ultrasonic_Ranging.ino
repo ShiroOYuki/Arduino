@@ -1,4 +1,6 @@
 float distance;
+int trig = 11;
+int echo = 12;
 
 void setup() {
   // put your setup code here, to run once:
