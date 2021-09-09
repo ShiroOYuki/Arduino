@@ -21,11 +21,11 @@ void loop() {
     val = Serial.parseInt();
     
     Serial.println(val);
-    IC_CD4511(val);
+    IC_CD4511(9,10,11,12,val);
   }
 }
 
-void IC_CD4511(int val){
+void IC_CD4511(int Pin_A,int Pin_B,int Pin_C,int pin_D,int val){
   /*
    * if val > 9:OFF
    * 
