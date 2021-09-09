@@ -21,7 +21,7 @@ void loop() {
     val = Serial.parseInt();
     
     Serial.println(val);
-    IC_CD4511(9,10,11,12,val);
+    IC_CD4511(val,9,10,11,12);
   }
 }
 
