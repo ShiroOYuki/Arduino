@@ -21,7 +21,7 @@ void loop()
   }
 }
 
-void IC_74595(int data){
+void IC_74595(int data,int dataPin,int latchPin,int clockPin){
   /*
    * Q0:IC Pin 15
    * Q1~Q7:IC Pin 1~7
