@@ -25,7 +25,7 @@ void loop() {
   }
 }
 
-void IC_CD4511(int Pin_A,int Pin_B,int Pin_C,int pin_D,int val){
+void IC_CD4511(int val,int Pin_A,int Pin_B,int Pin_C,int pin_D){
   /*
    * if val > 9:OFF
    * 
