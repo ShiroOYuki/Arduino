@@ -1,6 +1,4 @@
-int trig = 11;
-int echo = 12;
-float distance,receiveTime;
+float distance;
 
 void setup() {
   // put your setup code here, to run once:
@@ -13,19 +11,18 @@ void loop() {
   // put your main code here, to run repeatedly:
   delay(500);
 
-  distance = getDistance();
+  distance = getDistance(11,12);
 
   Serial.println(distance);
-
-  
 }
 
-float getDistance(){
-  digitalWrite(trig,1);
+float getDistance(int trigPin,int echoPin){
+  float distance,receiveTime;
+  digitalWrite(trigPin,1);
   delayMicroseconds(10);
-  digitalWrite(trig,0);
+  digitalWrite(trigPin,0);
   
-  receiveTime = pulseIn(echo,1);
+  receiveTime = pulseIn(echoPin,1);
 
   distance = (receiveTime/2)/29.1;
 
