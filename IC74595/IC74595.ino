@@ -17,7 +17,7 @@ void loop()
   if(Serial.available()>0){
     data = Serial.parseInt();
     Serial.println(data);
-    IC_74595(data);
+    IC_74595(data,11,8,12);
   }
 }
 
