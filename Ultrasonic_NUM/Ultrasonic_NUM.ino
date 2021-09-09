@@ -1,6 +1,6 @@
 int trig = 2;
 int echo = 3;
-float distance,receiveTime;
+float distance;
 
 int Pin_A = 9;
 int Pin_B = 10;
@@ -23,27 +23,28 @@ void setup() {
 void loop() {
   delay(500);
 
-  distance = getDistance();
+  distance = getDistance(2,3);
 
   Serial.println(distance);
   int val = (int)distance/5;
   Serial.println(val);
-  IC_CD4511(val);
+  IC_CD4511(val,9,10,11,12);
 }
 
-float getDistance(){
-  digitalWrite(trig,1);
+float getDistance(int trigPin,int echoPin){
+  float distance,receiveTime;
+  digitalWrite(trigPin,1);
   delayMicroseconds(10);
-  digitalWrite(trig,0);
+  digitalWrite(trigPin,0);
   
-  receiveTime = pulseIn(echo,1);
+  receiveTime = pulseIn(echoPin,1);
 
   distance = (receiveTime/2)/29.1;
 
   return distance;
 }
 
-void IC_CD4511(int val){
+void IC_CD4511(int val,int Pin_A,int Pin_B,int Pin_C,int pin_D){
   /*
    * if val > 9:OFF
    * 

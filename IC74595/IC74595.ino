@@ -17,11 +17,11 @@ void loop()
   if(Serial.available()>0){
     data = Serial.parseInt();
     Serial.println(data);
-    IC_74595(data);
+    IC_74595(data,11,8,12);
   }
 }
 
-void IC_74595(int data){
+void IC_74595(int data,int dataPin,int latchPin,int clockPin){
   /*
    * Q0:IC Pin 15
    * Q1~Q7:IC Pin 1~7
