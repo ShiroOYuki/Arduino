@@ -51,5 +51,3 @@ void IC_74595(int data,int dataPin,int latchPin,int clockPin){
   shiftOut(dataPin, clockPin, LSBFIRST, data);
   digitalWrite(latchPin,1);
 }
-
-//01110000=128+64+32=224
