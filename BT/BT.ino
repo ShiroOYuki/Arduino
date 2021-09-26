@@ -1,26 +1,24 @@
-#include <SoftwareSerial.h>// 引用程式庫
+#include <SoftwareSerial.h>
 
 // 定義連接藍牙模組的序列埠
-SoftwareSerial BT(8, 9); // 接收腳(RX), 傳送腳(TX)
-char val;  // 儲存接收資料的變數
+SoftwareSerial BT(8, 9); // RX, TX
+char val;
 
 void setup() {
-  Serial.begin(9600);   // 與電腦序列埠連線
+  Serial.begin(9600);
   Serial.println("BT is ready!");
 
-  // 設定藍牙模組的連線速率
-  // 如果是HC-05，請改成38400
+  // 如果是HC-05改成38400
   BT.begin(38400);
 }
 
 void loop() {
-  // 若收到「序列埠監控視窗」的資料，則送到藍牙模組
-  if (Serial.available()) {
+  if (Serial.available()>0) {
     val = Serial.read();
     BT.print(val);
+    Serial.println(val);
   }
 
-  // 若收到藍牙模組的資料，則送到「序列埠監控視窗」
   if (BT.available()) {
     val = BT.read();
     Serial.print(val);
