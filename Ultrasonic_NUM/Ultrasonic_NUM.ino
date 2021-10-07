@@ -1,11 +1,11 @@
-int trig = 2;
-int echo = 3;
+int trig = 6;
+int echo = 7;
 float distance;
 
-int Pin_A = 9;
-int Pin_B = 10;
-int Pin_C = 11;
-int Pin_D = 12;
+int Pin_A = 10;
+int Pin_B = 11;
+int Pin_C = 12;
+int Pin_D = 13;
 int val = 0;
 
 void setup() {
@@ -23,12 +23,12 @@ void setup() {
 void loop() {
   delay(500);
 
-  distance = getDistance(2,3);
+  distance = getDistance(trig,echo);
 
   Serial.println(distance);
-  int val = (int)distance/5;
+  int val = (int)distance/3;
   Serial.println(val);
-  IC_CD4511(val,9,10,11,12);
+  IC_CD4511(val);
 }
 
 float getDistance(int trigPin,int echoPin){
@@ -44,7 +44,7 @@ float getDistance(int trigPin,int echoPin){
   return distance;
 }
 
-void IC_CD4511(int val,int Pin_A,int Pin_B,int Pin_C,int pin_D){
+void IC_CD4511(int val){
   /*
    * if val > 9:OFF
    * 
@@ -63,34 +63,43 @@ void IC_CD4511(int val,int Pin_A,int Pin_B,int Pin_C,int pin_D){
    * f:IC Pin 15
    * g:IC Pin 14
    * 
-   * lamp test:IC Pin 3 -> Vcc
+   * Pin 3 -> NC
    * ripple blanking:IC Pin 4 -> Vcc
    * enable/store input:IC Pin 5 -> GND
+   * Vss:IC Pin 8 -> GND
    * 
    * -----If IC is 7448-----
    * Pin 3,4,5 不接
    */
   int D=0,C=0,B=0,A=0;
-  for(int i=0;i<val;i++){
-    if(A==0)
-      A=1;
-    else{
-      A=0;
-      if(B==0)
-        B=1;
+  if(val <=10){
+    for(int i=0;i<val;i++){
+      if(A==0)
+        A=1;
       else{
-        B=0;
-        if(C==0)
-          C=1;
+        A=0;
+        if(B==0)
+          B=1;
         else{
-          C=0;
-          if(D==0)
-            D=1;
-          else
-            D=0;
+          B=0;
+          if(C==0)
+            C=1;
+          else{
+            C=0;
+            if(D==0)
+              D=1;
+            else
+              D=0;
+          }
         }
       }
     }
+  }
+  else{
+    A=1;
+    B=1;
+    C=1;
+    D=1;  
   }
   digitalWrite(Pin_A,A);
   digitalWrite(Pin_B,B);

@@ -1,6 +1,6 @@
 float distance;
-int trig = 11;
-int echo = 12;
+int trig = 10;
+int echo = 8;
 
 void setup() {
   // put your setup code here, to run once:
@@ -13,7 +13,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   delay(500);
 
-  distance = getDistance(11,12);
+  distance = getDistance(trig,echo);
 
   Serial.println(distance);
 }
