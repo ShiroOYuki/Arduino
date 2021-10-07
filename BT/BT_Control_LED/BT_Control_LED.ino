@@ -1,7 +1,8 @@
 #include <SoftwareSerial.h>
 
 // 定義連接藍牙模組的序列埠
-int LED = 9;
+int LED = 9; //測試是否完成寫入用
+int LED_Control = 11;
 SoftwareSerial BT(8, 10); // RX, TX
 
 char val;
@@ -12,6 +13,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("BT is ready!");
   pinMode(LED,OUTPUT);
+  pinMode(LED_Control,OUTPUT);
   digitalWrite(LED,1);
   // 如果是HC-05改成38400
   BT.begin(9600);
@@ -26,6 +28,15 @@ void loop() {
 
   if (BT.available()) {
     Word = BT.readString();
+    if(Word == "On\r\n"){//CR+LF 的輸入模式會在字尾加上'\r\n'
+      digitalWrite(LED_Control,1);
+      Serial.println("Led On");
+    }
+    if(Word == "Off\r\n"){
+      digitalWrite(LED_Control,0);
+      Serial.println("Led Off");
+    }
     BT.println(Word);  
+    Serial.print(Word);
   }
 }
