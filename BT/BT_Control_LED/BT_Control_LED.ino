@@ -15,7 +15,7 @@ void setup() {
   pinMode(LED,OUTPUT);
   pinMode(LED_Control,OUTPUT);
   digitalWrite(LED,1);
-  // 如果是HC-05改成38400
+  // HC-05 "有可能"是 38400，但建議先用 AT+UART? 查查
   BT.begin(9600);
 }
 
