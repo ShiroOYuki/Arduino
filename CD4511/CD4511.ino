@@ -1,7 +1,7 @@
-int Pin_A = 9;
-int Pin_B = 10;
-int Pin_C = 11;
-int Pin_D = 12;
+int Pin_A = 10;
+int Pin_B = 11;
+int Pin_C = 12;
+int Pin_D = 13;
 int val = 0;
 
 void setup() {
@@ -21,7 +21,7 @@ void loop() {
     val = Serial.parseInt();
     
     Serial.println(val);
-    IC_CD4511(val,9,10,11,12);
+    IC_CD4511(val,10,11,12,13);
   }
 }
 
@@ -47,6 +47,7 @@ void IC_CD4511(int val,int Pin_A,int Pin_B,int Pin_C,int pin_D){
    * lamp test:IC Pin 3 -> Vcc
    * ripple blanking:IC Pin 4 -> Vcc
    * enable/store input:IC Pin 5 -> GND
+   * Vss:IC Pin 8 -> GND
    * 
    * -----If IC is 7448-----
    * Pin 3,4,5 不接

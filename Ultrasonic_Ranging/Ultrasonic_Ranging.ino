@@ -1,9 +1,5 @@
 float distance;
-<<<<<<< Updated upstream
-int trig = 10;
-=======
 int trig = 11;
->>>>>>> Stashed changes
 int echo = 8;
 
 void setup() {

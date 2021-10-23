@@ -2,7 +2,7 @@
 
 // 定義連接藍牙模組的序列埠
 int LED = 9;
-SoftwareSerial BT(8, 10); // RX, TX
+SoftwareSerial BT(2, 15); // RX, TX
 
 char val;
 String Word;
