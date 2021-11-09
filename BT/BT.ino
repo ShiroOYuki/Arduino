@@ -1,31 +1,27 @@
-#include <SoftwareSerial.h>
 
-// 定義連接藍牙模組的序列埠
-int LED = 9;
-SoftwareSerial BT(2, 15); // RX, TX
+// BT || Arduino
+// EN -> 9
+// TX -> 10
+// RX -> 11
+// Vcc -> 5v
+// GND -> GND
 
-char val;
-String Word;
-long V=0;
-
-void setup() {
+#include  <SoftwareSerial.h>
+SoftwareSerial BTSerial(10, 11); // RX | TX
+void setup()
+{
+  pinMode(9, OUTPUT);  // this pin will pull the HC-05 pin 34 (key pin) HIGH to switch module to AT mode
+  digitalWrite(9, HIGH);
   Serial.begin(9600);
-  Serial.println("BT is ready!");
-  pinMode(LED,OUTPUT);
-  digitalWrite(LED,1);
-  // 如果是HC-05改成38400
-  BT.begin(9600);
+  Serial.println("Enter AT commands:");
+  BTSerial.begin(38400);  // HC-05 default speed in AT command more
 }
-
-void loop() {
-  if (Serial.available()) {
-    val = Serial.read();
-    BT.print(val);
-    Serial.println(val);
-  }
-
-  if (BT.available()) {
-    Word = BT.readString();
-    BT.println(Word);  
-  }
+void loop()
+{
+  // Keep reading from HC-05 and send to Arduino Serial Monitor
+  if (BTSerial.available())
+    Serial.write(BTSerial.read());
+  // Keep reading from Arduino Serial Monitor and send to HC-05
+  if (Serial.available())
+    BTSerial.write(Serial.read());
 }
