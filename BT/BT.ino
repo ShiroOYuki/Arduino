@@ -1,27 +1,55 @@
+// If use Windows's app "Buletooth Serial Terminal"
+// When send a message, please use "send button", don't press "Enter"
+// Or it will send a same message 2 times!
 
 // BT || Arduino
 // EN -> 9
-// TX -> 10
-// RX -> 11
+// TX -> 0
+// RX -> 1
 // Vcc -> 5v
 // GND -> GND
 
 #include  <SoftwareSerial.h>
-SoftwareSerial BTSerial(10, 11); // RX | TX
+int BT_RX = 1;
+int BT_TX = 0;
+SoftwareSerial BTSerial(BT_TX,BT_RX); // RX | TX
 void setup()
 {
-  pinMode(9, OUTPUT);  // this pin will pull the HC-05 pin 34 (key pin) HIGH to switch module to AT mode
-  digitalWrite(9, HIGH);
   Serial.begin(9600);
   Serial.println("Enter AT commands:");
-  BTSerial.begin(38400);  // HC-05 default speed in AT command more
+  // AT+UART? Display community mode baud rate
+  // AT mode baud rate is 38400
+  // Arduino write code baud rate is 115200
+  BTSerial.begin(9600);  // HC-05 default speed in AT command more
 }
 void loop()
 {
-  // Keep reading from HC-05 and send to Arduino Serial Monitor
-  if (BTSerial.available())
-    Serial.write(BTSerial.read());
-  // Keep reading from Arduino Serial Monitor and send to HC-05
-  if (Serial.available())
-    BTSerial.write(Serial.read());
+  if (BTSerial.available()){
+    String indata = BTSerial.readString();
+    String mode = getValue(indata,';',0);
+    String data = getValue(indata,';',1);
+    if (mode == "send"){
+      Serial.println("---send---");
+      Serial.println(data);
+    }
+    else if (mode == "test"){
+      Serial.println("---test---");
+    }
+  }
+}
+
+String getValue(String data, char separator, int index)
+{
+  int found = 0;
+  int strIndex[] = { 0, -1 };
+  int maxIndex = data.length() - 1;
+
+  for (int i = 0; i <= maxIndex && found <= index; i++) {
+      if (data.charAt(i) == separator || i == maxIndex) {
+          found++;
+          strIndex[0] = strIndex[1] + 1;
+          strIndex[1] = (i == maxIndex) ? i+1 : i;
+      }
+  }
+  return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
