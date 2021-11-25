@@ -10,8 +10,8 @@
 // GND -> GND
 
 #include  <SoftwareSerial.h>
-int BT_RX = 1;
-int BT_TX = 0;
+int BT_RX = 9;
+int BT_TX = 8;
 SoftwareSerial BTSerial(BT_TX,BT_RX); // RX | TX
 void setup()
 {
@@ -20,10 +20,14 @@ void setup()
   // AT+UART? Display community mode baud rate
   // AT mode baud rate is 38400
   // Arduino write code baud rate is 115200
-  BTSerial.begin(9600);  // HC-05 default speed in AT command more
+  BTSerial.begin(38400);  // HC-05 default speed in AT command more
 }
 void loop()
 {
+  if (Serial.available()){
+    BTSerial.write(Serial.read());
+  }
+  
   if (BTSerial.available()){
     String indata = BTSerial.readString();
     String mode = getValue(indata,';',0);
@@ -34,6 +38,9 @@ void loop()
     }
     else if (mode == "test"){
       Serial.println("---test---");
+    }
+    else{
+      Serial.println(indata);
     }
   }
 }
